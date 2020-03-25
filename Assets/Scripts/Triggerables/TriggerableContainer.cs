@@ -4,7 +4,7 @@ using UnityEngine;
 
 //TODO consider having a TriggerableContainer class (inheriting from Triggerable) that you use as base for objects such as this.
 
-public class DiscRack : Triggerable
+public class TriggerableContainer : Triggerable
 {
     public ItemSlot containedItem;
 

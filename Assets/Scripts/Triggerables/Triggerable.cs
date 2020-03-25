@@ -23,6 +23,9 @@ public class Triggerable : MonoBehaviour
         else if (pTriggerProcessCoroutine != null)
             Cancel();
 
+        if (!CheckPreRequisites())
+            return false;
+
         StartPlayerTrigger();
         return true;
     }
@@ -66,7 +69,7 @@ public class Triggerable : MonoBehaviour
 
     public virtual void Cancel()
     {
-        print ("Called Cancel()");
+        //print ("Called Cancel()");
         StopAllCoroutines();
         pTriggerProcessCoroutine = null;
         Player.progressBar.SetBarVisibility(false);

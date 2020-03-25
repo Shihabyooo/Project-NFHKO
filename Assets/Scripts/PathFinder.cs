@@ -36,27 +36,13 @@ public class PathFinder : MonoBehaviour
         }
     }
 
-
     public Path CalculatePath(NavigationNode currentNode, Vector3 targetPos, NavigationNode targetNode = null)
     {
         Path path = new Path();
 
         //first we figure out which node targetPos is at (if we didn't recieve it with the function call, i.e = null)
         if (targetNode == null)
-        {
-            foreach (NavigationNode node in sceneNodes)
-            {
-                if (node.nodeType == NavigationNode.NodeType.room)
-                {
-                    Room room = node.gameObject.GetComponent<Room>();
-                    if (room.TestLocationInside(targetPos))
-                    {
-                        targetNode = node;
-                        break;
-                    }
-                }
-            }
-        }
+            targetNode = FindNodeFromPosition(targetPos);
 
         //then we just use the recursive function FindPath to do what its name says...
         //but before that, we have to check whether we need to do so. If the target node is the same as the current node, we don't need to find a path through rooms but
@@ -147,6 +133,24 @@ public class PathFinder : MonoBehaviour
             }
             return shortestPath;
         }
+    }
+
+    public NavigationNode FindNodeFromPosition(Vector3 position)
+    {
+        foreach (NavigationNode node in sceneNodes)
+        {
+            if (node.nodeType == NavigationNode.NodeType.room)
+            {
+                Room room = node.gameObject.GetComponent<Room>();
+                if (room.TestLocationInside(position))
+                {
+                    return node;
+                }
+            }
+        }
+
+        print ("WARNING! Could not find a node matching the provided position");
+        return null;
     }
 }
 

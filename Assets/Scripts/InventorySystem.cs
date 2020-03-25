@@ -23,11 +23,12 @@ public class InventorySystem : MonoBehaviour
 
     public bool AddItem (uint itemID, uint count = 1) //adds an amount of count of itemID to inventory
     {
-        print ("Attempting to add item " + itemID + ", quantity: " + count); //test
+        //print ("Attempting to add item " + itemID + ", quantity: " + count); //test
         int firstEmptySlot = -1; //to avoid having multiple loops if no existing slot was found, we simply save.
         
-        for (uint i = maxInventorySize - 1; i > 0; i--) //multi-purpose loop. Checks if item exists (and if so, increment its count), and also checks for empty slots.
+        for (uint i = maxInventorySize - 1; i >= 0; i--) //multi-purpose loop. Checks if item exists (and if so, increment its count), and also checks for empty slots.
         {
+            print (i);
             if (heldItems[i] != null && heldItems[i].itemID == itemID) //found an existing listing of the item, we increment its quantity.
             {
                 heldItems[i].itemCount += count;
@@ -35,7 +36,6 @@ public class InventorySystem : MonoBehaviour
             }
             else if (heldItems[i] == null) //save the location of the empty slot for later use to, avoid having another search loop.
             {
-                print ("setting firstEmptySlot to " + firstEmptySlot); //test
                 firstEmptySlot = (int)i;
             }
         }
@@ -86,7 +86,7 @@ public class InventorySystem : MonoBehaviour
     public bool CheckItem (uint itemID, uint count) //returns whether an amount equall to count of itemID exists in inventory
     {
         int heldCountOfItem = GetItemQuantity(itemID);
-        return heldCountOfItem > count? true : false;
+        return heldCountOfItem >= count? true : false;
     }
 
     public int GetItemQuantity(ItemSlot itemSlot) //returns amount of itemInventory.itemID in inventory, returns -1 if item doesn't exist at all
@@ -98,7 +98,7 @@ public class InventorySystem : MonoBehaviour
     {                                        //though there shouldn't exist an ItemSlot with itemCount == 0, but still, better safe than sorry.
         for (uint i = 0; i < maxInventorySize; i++)
         {
-            if (heldItems[i].itemID == itemID)
+            if (heldItems[i] != null && heldItems[i].itemID == itemID)
             {
                 return (int)heldItems[i].itemCount;
             }
