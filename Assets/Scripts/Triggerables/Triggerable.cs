@@ -11,6 +11,10 @@ public class Triggerable : MonoBehaviour
 {
     public float triggerTime = 5.0f;
     public bool isTriggered = false;
+
+    public Triggerable[] preRequiredTriggers; //in non-customized Triggers, every object in this list will be tested for isTriggered. If any fails, player cannot trigger this Trigger.
+    public uint[] requiredItems; //listed by itemIDs.
+
     // Start is called before the first frame update
     void Start()
     {
@@ -31,6 +35,37 @@ public class Triggerable : MonoBehaviour
             Cancel();
 
         StartPlayerTrigger();
+        return true;
+    }
+
+    protected virtual bool CheckPreRequisites() //returns true if all prerequisites are satistified.
+                                                //advanced prerequisites (e.g. trigger has multiple options for trigger) can override this method with their own tests.
+    {
+        if (preRequiredTriggers != null && preRequiredTriggers.Length > 0)
+        {
+            //loop over prerequiesites and check whether they are allready triggered
+            foreach (Triggerable trigger in preRequiredTriggers)
+            {
+                if (!trigger.isTriggered)
+                    return false;
+            }
+        }
+
+        //check items
+        if (!CheckRequiredItems())
+            return false;
+        
+        //if we reached here, this means everything is set up and we can trigger this object
+        return true;
+    }
+
+    protected virtual bool CheckRequiredItems()
+    {
+        if (requiredItems != null && requiredItems.Length > 0 )
+        {
+            //TODO finish this after implementing inventory system
+        }
+
         return true;
     }
 
@@ -64,7 +99,6 @@ public class Triggerable : MonoBehaviour
         Player.progressBar.SetBarVisibility(false);
         //print ("Finished PlayerTriggerProcess");
         yield return isTriggered = true;
-
     }
-
+    
 }
