@@ -13,7 +13,7 @@ public class Triggerable : MonoBehaviour
     public bool isTriggered = false;
 
     public Triggerable[] preRequiredTriggers; //in non-customized Triggers, every object in this list will be tested for isTriggered. If any fails, player cannot trigger this Trigger.
-    public uint[] requiredItems; //listed by itemIDs.
+    public ItemSlot[] requiredItems; 
     public TriggerableScript script;
 
     public virtual bool Trigger()
@@ -52,9 +52,15 @@ public class Triggerable : MonoBehaviour
     {
         if (requiredItems != null && requiredItems.Length > 0 )
         {
-            //TODO finish this after implementing inventory system
+            foreach (ItemSlot item in requiredItems)
+            {
+                if (!GameManager.inventory.CheckItem(item))
+                {
+                    return false;
+                }
+            }
         }
-
+        
         return true;
     }
 

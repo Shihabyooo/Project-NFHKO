@@ -196,7 +196,7 @@ public class Player : MonoBehaviour
 
     void CancelTasks()
     {
-        print ("Called CancelTask()");
+        //print ("Called CancelTask()");
         if (activeTask != null)
             activeTask.Cancel();        
 

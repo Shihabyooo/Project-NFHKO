@@ -49,15 +49,13 @@ public class MouseInput : MonoBehaviour
             
                 if (Physics.Raycast(ray, out hit, 1000.0f, clickableLayers))
                 {
-                    //test
-                    print ("Hit Name: " + hit.collider.gameObject.name);
+                    //print ("Hit Name: " + hit.collider.gameObject.name);
                     if (hit.collider.gameObject.GetComponent<Triggerable>() != null && !hit.collider.gameObject.GetComponent<Triggerable>().isTriggered)
                         Player.player.SetTask(hit.collider.gameObject.GetComponent<Triggerable>());
                     else
                         Player.player.SetTask(null);
 
                     Player.player.PlanAndExecuteMovement(hit.point);
-                    //end test
                 }
             }
         }
