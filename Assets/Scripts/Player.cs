@@ -18,6 +18,7 @@ public class Player : MonoBehaviour
 
     List<NavigationNode> pathPoints;
     Triggerable queuedTask = null;
+    Triggerable activeTask = null;
 
     // Start is called before the first frame update
     void Start()
@@ -30,7 +31,6 @@ public class Player : MonoBehaviour
         else
             Destroy(this.gameObject);
 
-        progressBar.SetBarVisibility(false);
         currentState = PlayerState.idle;
     }
 
@@ -184,24 +184,30 @@ public class Player : MonoBehaviour
     public void SetTask(Triggerable task)
     {
         //print ("Called SetTask() with " + (task == null? "null" : task.gameObject.name)); //test
-        if (task != null)
-            CancelTask();
-        
+        //if (task != null)
+        CancelTasks();
         queuedTask = task;
     }
 
-    void CancelTask()
+    public void ClearActiveTask()
     {
-        //print ("Called CancelTask()");
-        if (queuedTask != null)
-            queuedTask.Cancel();        
+        activeTask = null;
+    }
 
+    void CancelTasks()
+    {
+        print ("Called CancelTask()");
+        if (activeTask != null)
+            activeTask.Cancel();        
+
+        activeTask= null;
         queuedTask= null;
     }
 
     bool ProcessTrigger()
     {
         bool result = queuedTask.Trigger();
+        activeTask = queuedTask;
         queuedTask = null;
         return result;
     }

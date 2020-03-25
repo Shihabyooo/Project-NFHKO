@@ -24,7 +24,7 @@ public class CameraControl : MonoBehaviour
         ProcessInput();
     }
 
-    void ProcessInput()
+    void ProcessInput() //TODO move this to MouseInput class.
     {   
         //lock mouse cursor to game window
         Cursor.lockState = CursorLockMode.Confined;

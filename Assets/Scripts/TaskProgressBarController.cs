@@ -12,6 +12,7 @@ public class TaskProgressBarController : MonoBehaviour
     void Start()
     {
         sprite = this.gameObject.GetComponent<SpriteRenderer>();
+        SetBarVisibility(false);
     }
 
     public void SetProgress(float percentage)

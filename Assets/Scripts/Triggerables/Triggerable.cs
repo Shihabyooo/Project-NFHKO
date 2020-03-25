@@ -14,18 +14,7 @@ public class Triggerable : MonoBehaviour
 
     public Triggerable[] preRequiredTriggers; //in non-customized Triggers, every object in this list will be tested for isTriggered. If any fails, player cannot trigger this Trigger.
     public uint[] requiredItems; //listed by itemIDs.
-
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    public TriggerableScript script;
 
     public virtual bool Trigger()
     {
@@ -71,9 +60,10 @@ public class Triggerable : MonoBehaviour
 
     public virtual void Cancel()
     {
-        //print ("Called Cancel()");
+        print ("Called Cancel()");
         StopAllCoroutines();
         pTriggerProcessCoroutine = null;
+        Player.progressBar.SetBarVisibility(false);
     }
 
     protected virtual void StartPlayerTrigger()
@@ -82,7 +72,7 @@ public class Triggerable : MonoBehaviour
         pTriggerProcessCoroutine = StartCoroutine(PlayerTriggerProcess());
     } 
 
-    Coroutine pTriggerProcessCoroutine = null;
+    protected Coroutine pTriggerProcessCoroutine = null;
     protected virtual IEnumerator PlayerTriggerProcess()
     {
         //print ("Started PlayerTriggerProcess");
@@ -97,8 +87,20 @@ public class Triggerable : MonoBehaviour
         }
 
         Player.progressBar.SetBarVisibility(false);
+        Player.player.ClearActiveTask();
         //print ("Finished PlayerTriggerProcess");
         yield return isTriggered = true;
     }
-    
+
+}
+
+[System.Serializable]
+public class TriggerableScript //and when I say "Script," I mean so in a narrative way. This is a container for text/messages related to the trigger
+{
+    [TextArea] public string inspectionMessageUntriggered;
+    [TextArea] public string duringTriggeringMessage;
+    [TextArea] public string inspectionMessageTriggeredPlayer;
+    [TextArea] public string inspectionMessageTriggeredAI;
+    [TextArea] public string hint1;
+    [TextArea] public string hint2;
 }
