@@ -30,6 +30,11 @@ public class Triggerable : MonoBehaviour
         return true;
     }
 
+    public virtual void TriggerAI()
+    {
+        StartAITrigger();
+    }
+
     protected virtual bool CheckPreRequisites() //returns true if all prerequisites are satistified.
                                                 //advanced prerequisites (e.g. trigger has multiple options for trigger) can override this method with their own tests.
     {
@@ -80,6 +85,11 @@ public class Triggerable : MonoBehaviour
         //print ("Inside StartPlayerTrigger()");
         pTriggerProcessCoroutine = StartCoroutine(PlayerTriggerProcess());
     } 
+
+    protected virtual void StartAITrigger()
+    {
+
+    }
 
     protected Coroutine pTriggerProcessCoroutine = null;
     protected virtual IEnumerator PlayerTriggerProcess()
