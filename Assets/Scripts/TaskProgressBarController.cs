@@ -22,7 +22,7 @@ public class TaskProgressBarController : MonoBehaviour
         float barSize =  percentage * (maxValue - minValue);
         sprite.size = new Vector2(barSize, sprite.size.y);
 
-        Color newBarColor = new Color((1.0f - percentage), 1.0f, 0.0f, 1.0f);
+        Color newBarColor = new Color((1.0f - percentage), percentage, 0.0f, 1.0f);
         sprite.color = newBarColor;
     }
 

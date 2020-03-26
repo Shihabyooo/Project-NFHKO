@@ -6,18 +6,24 @@ public class AI : Character
 {
     public AIRoutine routine;
 
+    public static AI mainAI; //calling it main because there *might* be secondary AIs later on
+    static public TaskProgressBarController progressBar;
+
     // Start is called before the first frame update
     void Start()
     {
-        
-    }
+        if (mainAI == null)        
+        {
+            mainAI = this;
+            progressBar = this.transform.Find("TaskProgressBar").gameObject.GetComponent<TaskProgressBarController>();
+        }
+        else
+        {
+            Destroy(this.gameObject);
+        }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
+        progressBar.SetBarVisibility(false);
     }
-
     void FixedUpdate()
     {
         if (movementCoroutine == null && activeTask == null)
@@ -43,9 +49,21 @@ public class AI : Character
         return true;
     }
 
+    float timer = 0.0f;
     IEnumerator AIAction()
     {
-        yield return new WaitForSeconds(routine.GetCurrentWaypointActionDuration());
+        float taskTime = routine.GetCurrentWaypointActionDuration();
+        //yield return new WaitForSeconds(routine.GetCurrentWaypointActionDuration());
+        while (timer < taskTime)
+        {
+            yield return new WaitForEndOfFrame();
+            progressBar.SetProgress(timer / taskTime);
+            timer += Time.deltaTime;
+        }
+        
+        timer = 0.0f;
+        
+        progressBar.SetBarVisibility(false);
         yield return activeTask = null;
     }
 

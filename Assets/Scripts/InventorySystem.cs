@@ -26,9 +26,9 @@ public class InventorySystem : MonoBehaviour
         //print ("Attempting to add item " + itemID + ", quantity: " + count); //test
         int firstEmptySlot = -1; //to avoid having multiple loops if no existing slot was found, we simply save.
         
-        for (uint i = maxInventorySize - 1; i >= 0; i--) //multi-purpose loop. Checks if item exists (and if so, increment its count), and also checks for empty slots.
+        for (int i = (int)maxInventorySize - 1; i >= 0; i--) //multi-purpose loop. Checks if item exists (and if so, increment its count), and also checks for empty slots.
         {
-            print (i);
+            print (i); //test
             if (heldItems[i] != null && heldItems[i].itemID == itemID) //found an existing listing of the item, we increment its quantity.
             {
                 heldItems[i].itemCount += count;
@@ -36,7 +36,7 @@ public class InventorySystem : MonoBehaviour
             }
             else if (heldItems[i] == null) //save the location of the empty slot for later use to, avoid having another search loop.
             {
-                firstEmptySlot = (int)i;
+                firstEmptySlot = i;
             }
         }
         
