@@ -4,67 +4,25 @@ using UnityEngine;
 
 public class CameraControl : MonoBehaviour
 {
-
+    public static CameraControl mainCam;
     public Region minZoomRegion;
     public Region maxZoomRegion;
     Region regionCurrent;
     public float zoomSpeed = 65.0f; 
     public float cameraSpeed = 5.0f;
-    public float screenMovementThreshold = 10.0f; //the distance (in pixels) from the screen edges at which camera begins to move if mouse cursor reached.
 
     // Start is called before the first frame update
     void Start()
     {
+        if (mainCam == null)
+            mainCam = this;
+        else
+            Destroy(this.gameObject);
+
         regionCurrent = this.gameObject.GetComponent<Region>();
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        ProcessInput();
-    }
-
-    void ProcessInput() //TODO move this to MouseInput class.
-    {   
-        //lock mouse cursor to game window
-        Cursor.lockState = CursorLockMode.Confined;
-
-        //process zoom
-        float scrollDelta = Input.mouseScrollDelta.y;
-        if (scrollDelta > 0.1f || scrollDelta < -0.1f)
-        {
-            scrollDelta = scrollDelta / Mathf.Abs(scrollDelta); //normalize the value
-            Zoom(scrollDelta);
-        }
-
-        //process camera movement
-        Vector3 mousePos = Input.mousePosition;
-        Vector2 screenRes;
-        if (Screen.fullScreen)
-        {
-            screenRes = new Vector2(Screen.currentResolution.width, Screen.currentResolution.height);
-        }
-        else
-        {
-            screenRes = new Vector2(Screen.width, Screen.height);
-        }
-        
-        if (mousePos.x > screenRes.x - screenMovementThreshold ||
-            mousePos.x < screenMovementThreshold ||
-            mousePos.y > screenRes.y - screenMovementThreshold ||
-            mousePos.y < screenMovementThreshold
-           )
-           {
-               Vector3 screenCentre = new Vector3(screenRes.x / 2.0f, screenRes.y / 2.0f, 0.0f);
-                Vector3 direction = mousePos - screenCentre;
-                direction.z = 0.0f;
-                direction.Normalize();
-                Move(direction);
-                Debug.DrawRay(this.transform.position, direction, Color.blue); //test
-           }
-    }
-
-    void Zoom(float zoomRate)
+    public void Zoom(float zoomRate)
     {
         float zLevel = this.transform.position.z;
         zLevel += zoomRate * zoomSpeed * Time.deltaTime;
@@ -78,7 +36,7 @@ public class CameraControl : MonoBehaviour
                             //a zero-valued Vector to force clamping. This avoids an unpleasant jump that would happen if one zooms out with camera at edge of region, then moves.
     }
 
-    void Move(Vector3 direction)
+    public void Move(Vector3 direction)
     {
         Vector3 newPos = this.transform.position;
         newPos += direction * cameraSpeed * Time.deltaTime;
