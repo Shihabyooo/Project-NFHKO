@@ -209,10 +209,9 @@ public class Character : MonoBehaviour
 
     protected virtual bool ProcessTrigger()
     {
-        bool result = queuedTask.Trigger();
         activeTask = queuedTask;
         queuedTask = null;
-        return result;
+        return activeTask.Trigger();
     }
 
     public virtual void OnDrawGizmos()

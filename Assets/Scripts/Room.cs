@@ -6,14 +6,10 @@ using UnityEngine;
 [RequireComponent (typeof(NavigationNode))]
 public class Room : Region
 {
-    
-    
-    //public Transition[] transitions; //TODO change this to a node based solution abstracting transitions and rooms.
     BoxCollider roomCollider;
     public uint roomID; 
     Color gizmoColor = new Color(0.0f,1.0f,1.0f,1.0f);
 
-   
     void Start()
     {
         roomCollider = this.gameObject.GetComponent<BoxCollider>();

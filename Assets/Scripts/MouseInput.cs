@@ -4,28 +4,8 @@ using UnityEngine;
 
 public class MouseInput : MonoBehaviour
 {
-    public LayerMask clickableLayers;
- 
+    public LayerMask clickableLayers; //for use in click raycast tests, should be only set to gameplay elements's layers that can be clicked by player
     public float screenMovementThreshold = 10.0f; //the distance (in pixels) from the screen edges at which camera begins to move if mouse cursor reached.
-
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        ProcessInput();
-    }
-
-    Vector3 lastClick = new Vector3(100.0f, 100.0f, 100.0f); //test
-    void OnDrawGizmos()
-    {
-        Gizmos.DrawSphere(lastClick, 0.5f);
-    }
-
     float holdTimerMouseButton0 = 0.0f;
     float holdTimerMouseButton1 = 0.0f;
     public float minLeftClickHoldTimeToMove = 0.025f;
@@ -34,6 +14,11 @@ public class MouseInput : MonoBehaviour
     public float maxRightClickHoldTimeView = 0.5f; //for future use of secondary action using right click.
     //TODO I'm making the assumption here that the future use for right click is a "view" action, if that isn't the case, change the name of the two variables above.
     Vector3 lastRightClickPosition; //for use when moving camera by dragging.
+    
+    void Update()
+    {
+        ProcessInput();
+    }
 
     void ProcessInput()
     {
@@ -57,7 +42,6 @@ public class MouseInput : MonoBehaviour
             }
         }
     
-
         //right click tests
         if (Input.GetMouseButtonDown(1))
         {

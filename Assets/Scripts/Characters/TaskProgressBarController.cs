@@ -4,11 +4,10 @@ using UnityEngine;
 
 public class TaskProgressBarController : MonoBehaviour
 {
-    
     SpriteRenderer sprite;
     [SerializeField] float maxValue = 1.0f;
     [SerializeField] float minValue = 0.0f;
-    // Start is called before the first frame update
+
     void Awake()
     {
         sprite = this.gameObject.GetComponent<SpriteRenderer>();

@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class NavigationNode : MonoBehaviour
 {
-    // Start is called before the first frame update
     public enum NodeType {door, stairs, room};
     public NodeType nodeType;
 
@@ -23,6 +22,5 @@ public class NavigationNode : MonoBehaviour
             Gizmos.DrawLine(this.transform.position, node.transform.position);
         }
     }
-
 
 }

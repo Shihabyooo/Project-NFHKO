@@ -46,10 +46,11 @@ public class AI : Character
 
     protected override bool ProcessTrigger()
     {
-        queuedTask.TriggerAI();
+        //queuedTask.TriggerAI();
         activeTask = queuedTask;
         queuedTask = null;
-
+        activeTask.TriggerAI();
+        
         return true;
     }
 
@@ -65,6 +66,18 @@ public class AI : Character
             //make accommodation for animation triggers (future)
             //check whether there are any triggerables remaining in routine (use routine.noOfTriggerableWaypoints);
             //clear active tasks, so the routine can progress.
+
+            routine.RemoveWayPointFromRoutine(routine.currentWaypoint);
+            CheckRemainingRoutineTasks();
+            ClearActiveTask();
+    }
+
+    void CheckRemainingRoutineTasks()
+    {
+        if (routine.noOfTriggerableWaypoints < 1)
+        {
+            print ("No more tasks left for AI!");
+        }
     }
 
     float timer = 0.0f;

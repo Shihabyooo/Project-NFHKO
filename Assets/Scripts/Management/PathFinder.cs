@@ -54,14 +54,10 @@ public class PathFinder : MonoBehaviour
         //head directly to target location since we are already in its room.
         if (currentNode.nodeID != targetNode.nodeID)
         {    
-            //print ("calling FindPath with start " + currentNode.gameObject.name + " and target: " + targetNode.gameObject.name);
             List<NavigationNode> nodeChain = FindPath(currentNode, targetNode);
-            // //test
-            // print ("Pathfinder result: " + nodeChain.Count);
-            // foreach (NavigationNode node in nodeChain)
-            //     print (node.gameObject.name);
-            // //end test
+
             nodeChain.RemoveAt(nodeChain.Count - 1); //last element is the node we are currently at, no need to keep it.
+            
             //we fillout our path object.
             path.nodesChain = nodeChain;
         }
@@ -70,7 +66,7 @@ public class PathFinder : MonoBehaviour
             path.nodesChain = new List<NavigationNode>();
         }
         
-        //in both cases, the targetPos it the same
+        //in both cases, the targetPos is the same
         path.exactPos = targetPos;
 
         return path;
@@ -154,7 +150,9 @@ public class PathFinder : MonoBehaviour
             }
         }
 
-        //print ("WARNING! Could not find a node matching the provided position");
+        //print ("WARNING! Could not find a node matching the provided position"); 
+        //Current use of PathFinder.FindNodeFromPosition() in Character.FixedUpdate() would trigger the print statement above very frequently. Commenting it out now to keep console clean.
+        
         return null;
     }
 }
