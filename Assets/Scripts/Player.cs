@@ -9,8 +9,7 @@ public class Player : Character
     GameObject avatarModel; //TODO consider moving to Character.cs
     public bool isHiding {get; private set;}
 
-    // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
         if (player == null)
         {
@@ -19,9 +18,11 @@ public class Player : Character
         }
         else
             Destroy(this.gameObject);
-
+    }
+    public override void CustomStart()
+    {
         avatarModel = this.transform.Find("Model").gameObject;
-        //currentState = CharacterState.idle;
+        base.CustomStart();
     }
 
     public void SetHidingStatus(bool newState)

@@ -9,7 +9,7 @@ public class TaskProgressBarController : MonoBehaviour
     [SerializeField] float maxValue = 1.0f;
     [SerializeField] float minValue = 0.0f;
     // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
         sprite = this.gameObject.GetComponent<SpriteRenderer>();
         SetBarVisibility(false);

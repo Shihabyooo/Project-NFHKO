@@ -15,10 +15,24 @@ public class Character : MonoBehaviour
     protected List<NavigationNode> pathPoints;
     protected Triggerable queuedTask = null;
     protected Triggerable activeTask = null;
+    public bool isActive = false; //for pausing action for character (i.e. at menus, game pause, when game has ended, etc)
 
+    public virtual void CustomStart()
+    {
+        currentNode = GameManager.pathFinder.FindNodeFromPosition(this.transform.position);
+        isActive = true;
+    }
+
+    public virtual void FixedUpdate()
+    {
+        //Two things to note: A: This is expensive. B: The null test is to avoid having time periods where currentNode == null (since some regions, e.g. transitions between rooms, aren't counted by FindNodeFormPosition method)
+        if (isActive)
+            currentNode = GameManager.pathFinder.FindNodeFromPosition(this.transform.position) == null? currentNode : GameManager.pathFinder.FindNodeFromPosition(this.transform.position); 
+        
+    }
     public bool PlanAndExecuteMovement(Vector3 target)
     {
-        if (isOnStairs) //don't want to interrupt stairs climbing/descending
+        if (isOnStairs || !isActive) //don't want to interrupt stairs climbing/descending
             return false;
 
        //print ("Moving");
@@ -75,6 +89,9 @@ public class Character : MonoBehaviour
 
         while (!hasArrived)
         {
+            while (!isActive) //should stall the movement loop when pausing.
+                yield return new WaitForEndOfFrame();
+
             Vector3 pos = this.transform.position;
             float direction = currentTarget.x - pos.x;
             direction = direction / Mathf.Abs(direction); //normalize direction
@@ -107,7 +124,7 @@ public class Character : MonoBehaviour
                         }
                         else
                         {
-                            currentNode = pathPoints[pathPoints.Count -1];
+                            //currentNode = pathPoints[pathPoints.Count -1];
                             pathPoints.RemoveAt(pathPoints.Count - 1);
                         }
                     }

@@ -9,8 +9,7 @@ public class AI : Character
     public static AI mainAI; //calling it main because there *might* be secondary AIs later on
     static public TaskProgressBarController progressBar;
 
-    // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
         if (mainAI == null)        
         {
@@ -21,14 +20,20 @@ public class AI : Character
         {
             Destroy(this.gameObject);
         }
+    }
 
+    public override void CustomStart()
+    {
         progressBar.SetBarVisibility(false);
         routine.InitializeRoutine();
+        base.CustomStart();
     }
-    void FixedUpdate()
+    public override void FixedUpdate()
     {
-        if (movementCoroutine == null && activeTask == null)
+        if (isActive && movementCoroutine == null && activeTask == null)
             ProgressRoutine();
+
+        base.FixedUpdate();
     }
 
     void ProgressRoutine()

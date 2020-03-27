@@ -4,13 +4,15 @@ using UnityEngine;
 
 public class PathFinder : MonoBehaviour
 {
-    public Transform[] nodesContainers;
+    [SerializeField] Transform[] nodesContainers;
 
-    [SerializeField] NavigationNode[] sceneNodes;
+    NavigationNode[] sceneNodes;
 
-    // Start is called before the first frame update
-    void Start()
+    public bool isInitialized {get; private set;}
+
+    void Awake()
     {
+        isInitialized = false;
         //I make the assumption (for ease of organizing things in the Unity editor) that nodes will be organized in multiple objects. e.g. doors in a Transitions transform, rooms in a Room transform.
         //So, we expose (to the editor) an array of Transforms to assign those parent transforms to, then we loop through first the parent transforms, then the childern of each parent.
         //Assuming C++ logic applies to C#, arrays have better performance than stl containers, so I'll only use the list in initialization and retain the frequently accessed sceneNodes as array.
@@ -34,6 +36,9 @@ public class PathFinder : MonoBehaviour
             sceneNodes[i] = tempNodeHolder[(int)i].gameObject.GetComponent<NavigationNode>();
             sceneNodes[i].nodeID = i;
         }
+
+        isInitialized = true;
+        print ("Finished Initializing PathFinder");
     }
 
     public Path CalculatePath(NavigationNode currentNode, Vector3 targetPos, NavigationNode targetNode = null)
@@ -149,7 +154,7 @@ public class PathFinder : MonoBehaviour
             }
         }
 
-        print ("WARNING! Could not find a node matching the provided position");
+        //print ("WARNING! Could not find a node matching the provided position");
         return null;
     }
 }
