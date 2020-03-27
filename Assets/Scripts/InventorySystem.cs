@@ -28,7 +28,7 @@ public class InventorySystem : MonoBehaviour
         
         for (int i = (int)maxInventorySize - 1; i >= 0; i--) //multi-purpose loop. Checks if item exists (and if so, increment its count), and also checks for empty slots.
         {
-            print (i); //test
+            //print (i); //test
             if (heldItems[i] != null && heldItems[i].itemID == itemID) //found an existing listing of the item, we increment its quantity.
             {
                 heldItems[i].itemCount += count;

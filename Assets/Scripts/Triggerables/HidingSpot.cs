@@ -2,7 +2,18 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class HidingSpot : MonoBehaviour
+public class HidingSpot : Triggerable
 {
-    //Does this really require its own script? Shouldn't a tag and a collider for raycast tests be enough?
+    protected override void StartPlayerTrigger()
+    {
+        Player.player.SetHidingStatus(true);
+    }
+
+    public override void Cancel()
+    {
+        Player.player.SetHidingStatus(false);
+        Player.player.ClearActiveTask();
+    }
+
+
 }

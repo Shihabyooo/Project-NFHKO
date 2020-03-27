@@ -9,16 +9,15 @@ public class Room : Region
     
     
     //public Transition[] transitions; //TODO change this to a node based solution abstracting transitions and rooms.
-
-    BoxCollider collider;
-   public uint roomID; 
-   Color gizmoColor = new Color(0.0f,1.0f,1.0f,1.0f);
+    BoxCollider roomCollider;
+    public uint roomID; 
+    Color gizmoColor = new Color(0.0f,1.0f,1.0f,1.0f);
 
    
     void Start()
     {
-        collider = this.gameObject.GetComponent<BoxCollider>();
-        collider.center = localCentre;
-        collider.size = new Vector3(sizeX, sizeY, 1.0f);
+        roomCollider = this.gameObject.GetComponent<BoxCollider>();
+        roomCollider.center = localCentre;
+        roomCollider.size = new Vector3(sizeX, sizeY, 1.0f);
     }
 }

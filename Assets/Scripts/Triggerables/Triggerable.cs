@@ -88,7 +88,15 @@ public class Triggerable : MonoBehaviour
 
     protected virtual void StartAITrigger()
     {
-
+        //check if triggered by player
+        if (isTriggered)
+        {
+            AI.mainAI.ActivatePrankResponse();
+        }
+        else
+        {
+            AI.mainAI.NormalAIAction();
+        }
     }
 
     protected Coroutine pTriggerProcessCoroutine = null;

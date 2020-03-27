@@ -5,8 +5,8 @@ using UnityEngine;
 public class Character : MonoBehaviour
 {
    
-    public enum CharacterState {moving, idle, onStairs, inAction}
-    public CharacterState currentState;
+    //public enum CharacterState {moving, idle, onStairs, inAction}
+    //public CharacterState currentState;
     public NavigationNode currentNode;
     public float speed = 1.0f;
 
