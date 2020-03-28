@@ -9,12 +9,21 @@ using UnityEngine;
 
 public class Triggerable : MonoBehaviour
 {
+    public enum TriggerableState {untriggered, playerTriggered, aiTriggered};
+
+    public TriggerableState state {get; private set;}
+
     public float triggerTime = 5.0f;
-    public bool isTriggered = false;
+    public bool isTriggered = false; //TODO remove uses of this bool, switch to using TriggerableState state.
 
     public Triggerable[] preRequiredTriggers; //in non-customized Triggers, every object in this list will be tested for isTriggered. If any fails, player cannot trigger this Trigger.
     public ItemSlot[] requiredItems; 
     public TriggerableScript script;
+
+    void Awake()
+    {
+        state = TriggerableState.untriggered;
+    }
 
     public virtual bool Trigger()
     {
@@ -92,6 +101,7 @@ public class Triggerable : MonoBehaviour
         if (isTriggered)
         {
             AI.mainAI.ActivatePrankResponse();
+            SwitchState(TriggerableState.aiTriggered);
         }
         else
         {
@@ -115,8 +125,15 @@ public class Triggerable : MonoBehaviour
 
         Player.progressBar.SetBarVisibility(false);
         Player.player.ClearActiveTask();
+        
         //print ("Finished PlayerTriggerProcess");
+        SwitchState(TriggerableState.playerTriggered);
         yield return isTriggered = true;
+    }
+
+    public virtual void SwitchState(TriggerableState newstate)
+    {
+        state = newstate;
     }
 
 }

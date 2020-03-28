@@ -8,6 +8,8 @@ public class GameManager : MonoBehaviour
     static public GameManager gameMan;
     static public PathFinder pathFinder;
     static public InventorySystem inventory;
+    static public NarrativeManager narrativeMan;
+    static public UIManager uiMan;
 
     public bool isGameplayActive {get; private set;}
     void Start()
@@ -17,6 +19,8 @@ public class GameManager : MonoBehaviour
             gameMan = this;
             pathFinder = this.gameObject.GetComponent<PathFinder>();
             inventory = this.gameObject.GetComponent<InventorySystem>();
+            narrativeMan = this.gameObject.GetComponent<NarrativeManager>();
+            uiMan = this.gameObject.GetComponent<UIManager>();
         }
         else
         {

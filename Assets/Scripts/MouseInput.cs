@@ -59,7 +59,7 @@ public class MouseInput : MonoBehaviour
         {
             if (holdTimerMouseButton1 >= minRightClickHoldTimeView && holdTimerMouseButton1 <= maxRightClickHoldTimeView)
             {
-                //process normal secondary action
+                ProcessNormalRightClick();
             }
         }
 
@@ -75,16 +75,10 @@ public class MouseInput : MonoBehaviour
 
     void ProcessNormalLeftClick()
     {
-        Vector3 modMousePos = Input.mousePosition;
-        modMousePos.z = 1.0f;
-        Vector3 rawClickPos = Camera.main.ScreenToWorldPoint(modMousePos);
-            
-        Vector3 cameraPos = Camera.main.transform.position;
-        Vector3 clickDir = rawClickPos - cameraPos;
-        Ray ray = new Ray (cameraPos, clickDir);
-        RaycastHit hit;
-            
-        if (Physics.Raycast(ray, out hit, 1000.0f, clickableLayers))
+        RaycastHit hit = SampleCurrentMousePosition();
+                       
+        //if (Physics.Raycast(ray, out hit, 1000.0f, clickableLayers))
+        if (hit.collider != null)
         {
             //print ("Hit Name: " + hit.collider.gameObject.name);
             if (hit.collider.gameObject.GetComponent<Triggerable>() != null && !hit.collider.gameObject.GetComponent<Triggerable>().isTriggered)
@@ -124,6 +118,16 @@ public class MouseInput : MonoBehaviour
         //print (direction);//test
     }
 
+    void ProcessNormalRightClick()
+    {
+        RaycastHit hit = SampleCurrentMousePosition();
+
+        if (hit.collider != null && hit.collider.gameObject.GetComponent<Triggerable>() != null)
+        {
+            GameManager.narrativeMan.ProcessTriggerView(hit.collider.gameObject.GetComponent<Triggerable>());
+        }
+    }
+
     void ProcessScrollZoom()
     {
         float scrollDelta = Input.mouseScrollDelta.y;
@@ -161,5 +165,21 @@ public class MouseInput : MonoBehaviour
             Debug.DrawRay(this.transform.position, direction, Color.blue); //test
         }
     }
+
+    RaycastHit SampleCurrentMousePosition()
+    {
+        Vector3 modMousePos = Input.mousePosition;
+        modMousePos.z = 1.0f;
+        Vector3 rawClickPos = Camera.main.ScreenToWorldPoint(modMousePos);
+            
+        Vector3 cameraPos = Camera.main.transform.position;
+        Vector3 clickDir = rawClickPos - cameraPos;
+        Ray ray = new Ray (cameraPos, clickDir);
+        RaycastHit hit;
+        Physics.Raycast(ray, out hit, 1000.0f, clickableLayers);
+        
+        return hit;
+    }
+
 
 }
