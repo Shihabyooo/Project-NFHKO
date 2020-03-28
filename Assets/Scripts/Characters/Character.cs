@@ -15,6 +15,7 @@ public class Character : MonoBehaviour
     protected List<NavigationNode> pathPoints;
     protected Triggerable queuedTask = null;
     protected Triggerable activeTask = null;
+    protected Triggerable viewTask = null;
     public bool isActive = false; //for pausing action for character (i.e. at menus, game pause, when game has ended, etc)
 
     public virtual void CustomStart()
@@ -30,6 +31,7 @@ public class Character : MonoBehaviour
             currentNode = GameManager.pathFinder.FindNodeFromPosition(this.transform.position) == null? currentNode : GameManager.pathFinder.FindNodeFromPosition(this.transform.position); 
         
     }
+    
     public bool PlanAndExecuteMovement(Vector3 target)
     {
         if (isOnStairs || !isActive) //don't want to interrupt stairs climbing/descending
@@ -147,23 +149,24 @@ public class Character : MonoBehaviour
             }
             yield return new WaitForEndOfFrame();
         }
+        
         if (queuedTask != null)
             ProcessTrigger();
+        else if (viewTask != null)
+            GameManager.narrativeMan.ProcessTriggerView(viewTask);
 
+        //ClearActiveTask();
         yield return movementCoroutine = null;
     }
 
     IEnumerator ClimbStairs()
     {
-        //What's bellow is a testing implementation.
+        //What's bellow is a testing implementation, to be modified after adding animations.
 
-        //print ("started ascending/descending stairs");
         yield return new WaitForSeconds(1.0f);
          //there is an assumption here that stairs always come in -at least- pairs, and due to the fact that paths end in rooms, this means the first stair hit always ends up 
          //no less than 2 elements from the end of the path (worst case: stairBegin --> stairEnd --> targetRoom).
          
-        //print("from " + pathPoints[pathPoints.Count - 1].gameObject.name + " to " + pathPoints[pathPoints.Count - 2].gameObject.name );
-
         float yDelta = pathPoints[pathPoints.Count - 1].transform.position.y - pathPoints[pathPoints.Count - 2].transform.position.y;
          
         Vector3 teleportPos =  new Vector3(
@@ -171,7 +174,7 @@ public class Character : MonoBehaviour
             this.transform.position.y - yDelta,
             0.0f
          );
-        //print ("Teleport Target: " + teleportPos);
+
         this.gameObject.transform.position = teleportPos; //teleport to other end of stairs.
         
         pathPoints.RemoveAt(pathPoints.Count - 1); //remove first stair node
@@ -179,22 +182,26 @@ public class Character : MonoBehaviour
 
         yield return new WaitForSeconds(1.0f);
         currentNode = pathPoints[pathPoints.Count -1];
-        //print ("finished ascending/descending stairs");
-        //print ("Next node: " + pathPoints[pathPoints.Count - 1].gameObject.name);
+
         yield return isOnStairs = false;
     }
 
     public void SetTask(Triggerable task)
     {
-        //print ("Called SetTask() with " + (task == null? "null" : task.gameObject.name)); //test
-        //if (task != null)
         CancelTasks();
         queuedTask = task;
+    }
+
+    public void SetViewTask(Triggerable task)
+    {
+        CancelTasks();
+        viewTask = task;
     }
 
     public void ClearActiveTask()
     {
         activeTask = null;
+        viewTask = null;
     }
 
     void CancelTasks()
@@ -205,6 +212,7 @@ public class Character : MonoBehaviour
 
         activeTask= null;
         queuedTask= null;
+        viewTask = null;
     }
 
     protected virtual bool ProcessTrigger()

@@ -124,7 +124,9 @@ public class MouseInput : MonoBehaviour
 
         if (hit.collider != null && hit.collider.gameObject.GetComponent<Triggerable>() != null)
         {
-            GameManager.narrativeMan.ProcessTriggerView(hit.collider.gameObject.GetComponent<Triggerable>());
+            //GameManager.narrativeMan.ProcessTriggerView(hit.collider.gameObject.GetComponent<Triggerable>());
+            Player.player.SetViewTask(hit.collider.gameObject.GetComponent<Triggerable>());
+            Player.player.PlanAndExecuteMovement(hit.point);
         }
     }
 

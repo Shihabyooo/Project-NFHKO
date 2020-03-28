@@ -920,7 +920,7 @@ MonoBehaviour:
   preRequiredTriggers: []
   requiredItems: []
   script:
-    inspectionMessageUntriggered: Perhaps I can find something usefull in there.
+    inspectionMessageUntriggered: Perhaps I can find something usefull in here.
     duringTriggeringMessage: Let's see what we can find...
     inspectionMessageTriggeredPlayer: Nothing else of use here.
     inspectionMessageTriggeredAI: 
@@ -3281,11 +3281,11 @@ MonoBehaviour:
   - itemID: 2
     itemCount: 1
   script:
-    inspectionMessageUntriggered: 
-    duringTriggeringMessage: 
-    inspectionMessageTriggeredPlayer: 
-    inspectionMessageTriggeredAI: 
-    hint1: 
+    inspectionMessageUntriggered: Standard gas stove.
+    duringTriggeringMessage: If you can't stand the heat...
+    inspectionMessageTriggeredPlayer: Oh, this is going to be a blast!
+    inspectionMessageTriggeredAI: Heh! Hell's Kitchen's gone too literal.
+    hint1: Could try to feed the fire...
     hint2: 
 --- !u!1 &902744182
 GameObject:
@@ -3968,7 +3968,7 @@ MonoBehaviour:
   preRequiredTriggers: []
   requiredItems: []
   script:
-    inspectionMessageUntriggered: 
+    inspectionMessageUntriggered: I can probably fit and hide inside this cupboard.
     duringTriggeringMessage: 
     inspectionMessageTriggeredPlayer: 
     inspectionMessageTriggeredAI: 
@@ -6023,11 +6023,13 @@ MonoBehaviour:
   preRequiredTriggers: []
   requiredItems: []
   script:
-    inspectionMessageUntriggered: 
-    duringTriggeringMessage: 
-    inspectionMessageTriggeredPlayer: 
+    inspectionMessageUntriggered: A water tank with a variable discharge valve. Currently
+      set to low discharge.
+    duringTriggeringMessage: Let the water free!
+    inspectionMessageTriggeredPlayer: Discharge set to max, but I don't think that's
+      enough...
     inspectionMessageTriggeredAI: 
-    hint1: 
+    hint1: Perhaps if I tampered with this and its other end.
     hint2: 
 --- !u!65 &1989085552
 BoxCollider:
@@ -6171,11 +6173,13 @@ MonoBehaviour:
   - {fileID: 1989085551}
   requiredItems: []
   script:
-    inspectionMessageUntriggered: 
-    duringTriggeringMessage: 
-    inspectionMessageTriggeredPlayer: 
-    inspectionMessageTriggeredAI: 
-    hint1: 
+    inspectionMessageUntriggered: Looks like one of those new showerboxes with advanced
+      controls.
+    duringTriggeringMessage: Increase pressure, pump up heat to the max...
+    inspectionMessageTriggeredPlayer: One, big, heavy-duty dishwasher...
+    inspectionMessageTriggeredAI: Third degree burns are no joke!
+    hint1: I could tamper with this, but perhaps I should make sure the water supply
+      is enough first.
     hint2: 
 --- !u!65 &2051315840
 BoxCollider:
@@ -6240,7 +6244,7 @@ MonoBehaviour:
   preRequiredTriggers: []
   requiredItems: []
   script:
-    inspectionMessageUntriggered: 
+    inspectionMessageUntriggered: I could hide under this bed.
     duringTriggeringMessage: 
     inspectionMessageTriggeredPlayer: 
     inspectionMessageTriggeredAI: 
