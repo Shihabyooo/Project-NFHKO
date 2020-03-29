@@ -184,7 +184,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 11
+  m_RootOrder: 10
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &61575475
 GameObject:
@@ -332,9 +332,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a40aeda703e5eca4b8f385a3442e4a4b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  nodesContainers:
-  - {fileID: 1194368527}
-  - {fileID: 1000866538}
+  sceneNodes: []
 --- !u!114 &70788820
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2011,7 +2009,7 @@ Transform:
   - {fileID: 1141190718}
   - {fileID: 345848433}
   m_Father: {fileID: 0}
-  m_RootOrder: 7
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &455114754
 MonoBehaviour:
@@ -2352,7 +2350,7 @@ Transform:
   - {fileID: 268741867}
   - {fileID: 1948545911}
   m_Father: {fileID: 0}
-  m_RootOrder: 6
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &614914093
 MonoBehaviour:
@@ -3898,8 +3896,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1000866537}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 3.2987401, y: 0.8491211, z: -0.98046875}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 5.0331154, y: -2.4985352, z: -1.8691406}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 314573501}
@@ -3915,8 +3913,8 @@ Transform:
   - {fileID: 1655757545}
   - {fileID: 396850514}
   - {fileID: 938437747}
-  m_Father: {fileID: 0}
-  m_RootOrder: 5
+  m_Father: {fileID: 1205715561}
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1001322011
 GameObject:
@@ -4157,7 +4155,7 @@ RectTransform:
   m_Children:
   - {fileID: 708764844}
   m_Father: {fileID: 0}
-  m_RootOrder: 10
+  m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -4280,8 +4278,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1194368526}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 4.6865196, y: -0.22996773, z: 1.22}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 6.4208946, y: -3.577624, z: 0.33132815}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1478219184}
@@ -4293,6 +4291,38 @@ Transform:
   - {fileID: 355111850}
   - {fileID: 385411403}
   - {fileID: 1260177182}
+  m_Father: {fileID: 1205715561}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1205715560
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1205715561}
+  m_Layer: 0
+  m_Name: StageNodes
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1205715561
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1205715560}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -1.734375, y: 3.3476562, z: 0.8886719}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 1194368527}
+  - {fileID: 1000866538}
   m_Father: {fileID: 0}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -5364,7 +5394,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1700706007}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Triggerables
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5391,7 +5421,7 @@ Transform:
   - {fileID: 2094331596}
   - {fileID: 1001322012}
   m_Father: {fileID: 0}
-  m_RootOrder: 9
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1774829732
 GameObject:
@@ -5547,7 +5577,7 @@ Transform:
   m_Children:
   - {fileID: 209847129}
   m_Father: {fileID: 0}
-  m_RootOrder: 8
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1798019637
 GameObject:
@@ -6244,7 +6274,7 @@ MonoBehaviour:
   preRequiredTriggers: []
   requiredItems: []
   script:
-    inspectionMessageUntriggered: I could hide under this bed.
+    inspectionMessageUntriggered: I can hide under this bed.
     duringTriggeringMessage: 
     inspectionMessageTriggeredPlayer: 
     inspectionMessageTriggeredAI: 

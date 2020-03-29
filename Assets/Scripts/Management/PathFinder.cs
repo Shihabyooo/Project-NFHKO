@@ -4,25 +4,49 @@ using UnityEngine;
 
 public class PathFinder : MonoBehaviour
 {
-    [SerializeField] Transform[] nodesContainers;
 
-    NavigationNode[] sceneNodes;
+    
+    //[SerializeField] Transform[] nodesContainers;
+    Transform stageNodesContainer;
+
+    [SerializeField] NavigationNode[] sceneNodes;
 
     public bool isInitialized {get; private set;}
 
     void Awake()
     {
         isInitialized = false;
-        //I make the assumption (for ease of organizing things in the Unity editor) that nodes will be organized in multiple objects. e.g. doors in a Transitions transform, rooms in a Room transform.
-        //So, we expose (to the editor) an array of Transforms to assign those parent transforms to, then we loop through first the parent transforms, then the childern of each parent.
-        //Assuming C++ logic applies to C#, arrays have better performance than stl containers, so I'll only use the list in initialization and retain the frequently accessed sceneNodes as array.
         
+        //InitializePathFinder() is now called by GameManager.StageBeginInit().
+        //InitializePathFinder();
+    }
+
+    public void InitializePathFinder()
+    {
+        //I make the assumption (for ease of organizing things in the Unity editor) that nodes will be organized in multiple objects. e.g. doors in a Transitions transform, rooms in a Room transform.
+        //and that all of those objects in turn are organized in a big StageNodes object.
+        
+        //Assuming C++ logic applies to C#, arrays have better performance than stl containers, so I'll only use the list in initialization and retain the frequently accessed sceneNodes as array.
+
+        GameObject stageNodesObj = GameObject.Find("StageNodes");
+        
+        #if UNITY_EDITOR
+        if (stageNodesObj == null)  //debugging aid in case I forgot to sort my nodes into a StageNode object
+        {
+            print ("ERROR! Could not find an object with name StageNodes in scene. Forgot to put nodes into one?");
+            print ("Pausing play mode");
+            UnityEditor.EditorApplication.isPaused = true;
+        }
+        #endif
+
+        stageNodesContainer = GameObject.Find("StageNodes").transform; //TODO research a better performant alternative to this.
+
         //The tempNodeHolder list will be used to store all transforms with NavigationNodes component in one place that we then copy to our sceneNodes array.
         List<Transform> tempNodeHolder = new List<Transform>();
 
-        foreach (Transform container in nodesContainers) //loop through parent transforms.
+        foreach (Transform secondaryNodeContainer in stageNodesContainer)
         {
-            foreach (Transform nodeTransform in container) //loop through childern transforms of current parent transform.
+            foreach (Transform nodeTransform in secondaryNodeContainer) //loop through childern transforms of current secondary parent transform.
             {
                 if (nodeTransform.gameObject.GetComponent<NavigationNode>() != null)    //just for safety, we first check that the child has a NavigationNode component.
                     tempNodeHolder.Add(nodeTransform); //add to our buffer list.
@@ -31,6 +55,7 @@ public class PathFinder : MonoBehaviour
 
         sceneNodes = new NavigationNode[tempNodeHolder.Count]; //now that we know how many nodes we have, we can set our array's size and init it.
         
+        //copy the contents of the list to to the array.
         for (uint i = 0; i < tempNodeHolder.Count; i++)
         {
             sceneNodes[i] = tempNodeHolder[(int)i].gameObject.GetComponent<NavigationNode>();
@@ -39,6 +64,11 @@ public class PathFinder : MonoBehaviour
 
         isInitialized = true;
         print ("Finished Initializing PathFinder");
+    }
+
+    public void ResetPathFinder() //to be called at stage end. For now will only set isInitiazlied to false (else GameManager.StageBeginInit() wouldn't work properly in new stages).
+    {
+        isInitialized = false;
     }
 
     public Path CalculatePath(NavigationNode currentNode, Vector3 targetPos, NavigationNode targetNode = null)
@@ -155,6 +185,7 @@ public class PathFinder : MonoBehaviour
         
         return null;
     }
+
 }
 
 public class Path

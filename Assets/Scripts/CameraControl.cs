@@ -11,7 +11,6 @@ public class CameraControl : MonoBehaviour
     public float zoomSpeed = 65.0f; 
     public float cameraSpeed = 5.0f;
 
-    // Start is called before the first frame update
     void Start()
     {
         if (mainCam == null)

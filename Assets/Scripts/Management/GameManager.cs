@@ -10,9 +10,9 @@ public class GameManager : MonoBehaviour
     static public InventorySystem inventory;
     static public NarrativeManager narrativeMan;
     static public UIManager uiMan;
-
     public bool isGameplayActive {get; private set;}
-    void Start()
+
+    void Awake()
     {
         if (gameMan ==  null)
         {
@@ -21,13 +21,29 @@ public class GameManager : MonoBehaviour
             inventory = this.gameObject.GetComponent<InventorySystem>();
             narrativeMan = this.gameObject.GetComponent<NarrativeManager>();
             uiMan = this.gameObject.GetComponent<UIManager>();
+            DontDestroyOnLoad(this.gameObject);
         }
         else
         {
             Destroy(this.gameObject);
-        }
-        
-        StartCoroutine(FirstStart());
+        }        
+    }
+
+    void Start()
+    {
+        StartCoroutine(StageBeginInit());
+    }
+
+    IEnumerator StageBeginInit()
+    {
+        pathFinder.InitializePathFinder();
+
+        while (!pathFinder.isInitialized)
+            yield return new WaitForSeconds(0.5f);
+
+        isGameplayActive = true; //TODO remember to remove this when implementing a proper game start
+        StartPlayerAndAI();
+        yield return null;
     }
 
     void FixedUpdate()
@@ -60,14 +76,9 @@ public class GameManager : MonoBehaviour
         isGameplayActive = false;
     }
 
-
-    IEnumerator FirstStart()
+    public void EndStage()
     {
-        while (!pathFinder.isInitialized)
-            yield return new WaitForSeconds(0.1f);
-
-        isGameplayActive = true; //TODO remember to remove this when implementing a proper game start
-        StartPlayerAndAI();
-        yield return null;
+        pathFinder.ResetPathFinder();
     }
+    
 }
