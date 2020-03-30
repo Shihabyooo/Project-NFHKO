@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class UIManager : MonoBehaviour
 {
 
-    [SerializeField] Transform worldUI; //world-space UI
+    Transform worldSpaceCanvas; //world-space UI canvas
     Transform playerMessageBox;
     Text playerMessageText;
     RawImage playerMessageBG;
@@ -14,9 +14,22 @@ public class UIManager : MonoBehaviour
     public float textFadeInSpeed = 2.0f;
     public float textFadeOutSpeed = 0.5f;
 
-        void Awake()
+    public void InitializeUIManager()
     {
-        playerMessageBox = worldUI.Find("PlayerMessage");
+        GameObject worldSpaceCanvasObj = GameObject.Find("WorldSpaceCanvas");
+        
+        #if UNITY_EDITOR
+        if (worldSpaceCanvasObj == null)  //debugging aid in case I forgot to sort my nodes into a StageNode object
+        {
+            print ("ERROR! Could not find an object with name WorldSpaceCanvas in scene. Forgot to put UI canvas into one?");
+            print ("Pausing play mode");
+            UnityEditor.EditorApplication.isPaused = true;
+        }
+        #endif
+        
+        worldSpaceCanvas = worldSpaceCanvasObj.transform;
+
+        playerMessageBox = worldSpaceCanvas.Find("PlayerMessage");
         playerMessageText = playerMessageBox.Find("Text").GetComponent<Text>();
         playerMessageBG = playerMessageBox.Find("BG").GetComponent<RawImage>();
         

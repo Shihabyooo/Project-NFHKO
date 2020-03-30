@@ -172,7 +172,8 @@ public class Character : MonoBehaviour
         Vector3 teleportPos =  new Vector3(
             pathPoints[pathPoints.Count - 2].transform.position.x, 
             this.transform.position.y - yDelta,
-            0.0f
+            //0.0f
+            this.transform.position.z //in case the action plane (where characters move) isn't set to world zero.
          );
 
         this.gameObject.transform.position = teleportPos; //teleport to other end of stairs.

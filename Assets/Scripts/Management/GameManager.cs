@@ -36,9 +36,11 @@ public class GameManager : MonoBehaviour
 
     IEnumerator StageBeginInit()
     {
+        inventory.InitializeInventory();
+        uiMan.InitializeUIManager();
         pathFinder.InitializePathFinder();
 
-        while (!pathFinder.isInitialized)
+        while (!pathFinder.isInitialized) //Why? Shouldn't a simple call to PathFinder.InitializePathFinder stall the rest of the calling method untill init finishes?
             yield return new WaitForSeconds(0.5f);
 
         isGameplayActive = true; //TODO remember to remove this when implementing a proper game start

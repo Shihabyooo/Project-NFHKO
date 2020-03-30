@@ -7,7 +7,7 @@ public class InventorySystem : MonoBehaviour
     ItemSlot[] heldItems;
     [SerializeField] uint maxInventorySize = 5; //could be hardcoded.
 
-    void Start()
+    public void InitializeInventory()
     {
         heldItems = new ItemSlot[maxInventorySize];
         for (uint i = 0; i < maxInventorySize; i++)
