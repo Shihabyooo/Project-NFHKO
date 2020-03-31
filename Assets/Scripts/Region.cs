@@ -23,6 +23,7 @@ public class Region : MonoBehaviour
     //void OnDrawGizmosSelected()
     void OnDrawGizmos()
     {
+        UpdateCorners(); //this is expensive, but otherwise Unity won't update corners in editors unless exposed values are modified.
         Gizmos.color = gizmoColour;
         Gizmos.DrawLine(cornerSW, cornerNW);
         Gizmos.DrawLine(cornerNW, cornerNE);
