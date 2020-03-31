@@ -10,6 +10,7 @@ public class GameManager : MonoBehaviour
     static public InventorySystem inventory;
     static public NarrativeManager narrativeMan;
     static public UIManager uiMan;
+    static public SceneManagementHandler sceneMan;
     public bool isGameplayActive {get; private set;}
 
     void Awake()
@@ -21,6 +22,7 @@ public class GameManager : MonoBehaviour
             inventory = this.gameObject.GetComponent<InventorySystem>();
             narrativeMan = this.gameObject.GetComponent<NarrativeManager>();
             uiMan = this.gameObject.GetComponent<UIManager>();
+            sceneMan = this.gameObject.GetComponent<SceneManagementHandler>();
             DontDestroyOnLoad(this.gameObject);
         }
         else
