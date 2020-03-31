@@ -6,7 +6,8 @@ public class GameStateManager : MonoBehaviour
 {
     public enum State {mainMenu, pauseMenu, gamePlay, loadingScreen};
     public State gameState {get; private set;}
-    //public State gameState;
+    public float timeElapsedSinceStageStart {get; private set;} = 0.0f;
+
 
     public void SwitchGameState(State newState)
     {
@@ -39,11 +40,40 @@ public class GameStateManager : MonoBehaviour
         //print ("New gameState: " + gameState);
     }
 
+    public void RestartStageTimer()
+    {
+        StopStageTimer();
+        stageTimeKeeper = StartCoroutine(TimeKeeper());
+    }
+    
+    public void StopStageTimer()
+    {
+        if (stageTimeKeeper != null)
+            StopCoroutine(stageTimeKeeper);
+    }
+
+    Coroutine stageTimeKeeper = null;
+
+    IEnumerator TimeKeeper()
+    {
+        timeElapsedSinceStageStart = 0.0f;
+        while(true)
+        {
+            yield return new WaitForFixedUpdate();
+            timeElapsedSinceStageStart += Time.fixedDeltaTime;
+        }
+    }
+
+
     void OnGUI()
     {
-        string message = "Current GameState: ";
-        message += gameState.ToString();
+        string message = "Current GameState: " + gameState.ToString();
+        if (gameState == State.gamePlay)
+            message += ". Gameplay state: " + (GameManager.gameMan.isGameplayActive? "Active." : "Inactive");
 
-        GUI.Label(new Rect (30.0f, Screen.height - 70.0f, 200.0f, 50.0f), message);
+        GUI.Label(new Rect (30.0f, Screen.height - 40.0f, Screen.width - 60.0f , 30.0f), message);
+
+        GUI.Label(new Rect(30.0f, Screen.height - 70.0f, 200.0f, 30.0f), "Time elapsed: " + timeElapsedSinceStageStart);
+
     }
 }

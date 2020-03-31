@@ -16,25 +16,32 @@ public class Character : MonoBehaviour
     protected Triggerable queuedTask = null;
     protected Triggerable activeTask = null;
     protected Triggerable viewTask = null;
-    public bool isActive = false; //for pausing action for character (i.e. at menus, game pause, when game has ended, etc)
+    //public bool isActive = false; //for pausing action for character (i.e. at menus, game pause, when game has ended, etc)
+
+    public virtual void Awake()
+    {
+        //isActive = false;
+    }
 
     public virtual void CustomStart()
     {
+        //print ("CustomStart called for " + this.gameObject.name);
         currentNode = GameManager.pathFinder.FindNodeFromPosition(this.transform.position);
-        isActive = true;
+        //isActive = true;
     }
 
     public virtual void FixedUpdate()
     {
         //Two things to note: A: This is expensive. B: The null test is to avoid having time periods where currentNode == null (since some regions, e.g. transitions between rooms, aren't counted by FindNodeFormPosition method)
-        if (isActive)
+        //if (isActive)
+        if (GameManager.gameMan.isGameplayActive)
             currentNode = GameManager.pathFinder.FindNodeFromPosition(this.transform.position) == null? currentNode : GameManager.pathFinder.FindNodeFromPosition(this.transform.position); 
         
     }
     
     public bool PlanAndExecuteMovement(Vector3 target)
     {
-        if (isOnStairs || !isActive) //don't want to interrupt stairs climbing/descending
+        if (isOnStairs || !GameManager.gameMan.isGameplayActive)// || !isActive) //don't want to interrupt stairs climbing/descending
             return false;
 
        //print ("Moving");
@@ -91,7 +98,8 @@ public class Character : MonoBehaviour
 
         while (!hasArrived)
         {
-            while (!isActive) //should stall the movement loop when pausing.
+            //while (!isActive) //should stall the movement loop when pausing.
+            while (!GameManager.gameMan.isGameplayActive)
                 yield return new WaitForEndOfFrame();
 
             Vector3 pos = this.transform.position;

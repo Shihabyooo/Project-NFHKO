@@ -49,6 +49,7 @@ public class GameManager : MonoBehaviour
 
     public void StartNewStage()
     {
+        print ("Starting StageBeginInit()");
         StartCoroutine(StageBeginInit());
     }
 
@@ -63,9 +64,10 @@ public class GameManager : MonoBehaviour
 
         while (!pathFinder.isInitialized) //Why? Shouldn't a simple call to PathFinder.InitializePathFinder stall the rest of the calling method untill init finishes?
             yield return new WaitForSeconds(0.5f);
-
-        isGameplayActive = true; //TODO remember to remove this when implementing a proper game start
+        
         StartPlayerAndAI();
+        isGameplayActive = true; //TODO remember to remove this when implementing a proper game start
+        stateMan.RestartStageTimer();
         yield return null;
     }
 
@@ -94,9 +96,11 @@ public class GameManager : MonoBehaviour
     void ProcessPlayerCatching()
     {
         print ("Player is caught at room " + AI.mainAI.currentNode.gameObject.name);//test
-        Player.player.isActive = false;
-        AI.mainAI.isActive = false;
+        //Player.player.isActive = false;
+        //AI.mainAI.isActive = false;
         isGameplayActive = false;
+        
+        stateMan.StopStageTimer();
     }
 
     public void EndStage()
