@@ -7,33 +7,25 @@ public class AI : Character
     public AIRoutine routine;
 
     public static AI mainAI; //calling it main because there *might* be secondary AIs later on
-    static public TaskProgressBarController progressBar;
 
     public override void Awake()
     {
         if (mainAI == null)        
-        {
             mainAI = this;
-            progressBar = this.transform.Find("TaskProgressBar").gameObject.GetComponent<TaskProgressBarController>();
-        }
         else
-        {
             Destroy(this.gameObject);
-        }
 
         base.Awake();
     }
 
     public override void CustomStart()
     {
-        progressBar.SetBarVisibility(false);
         routine.InitializeRoutine();
         base.CustomStart();
     }
 
     public override void FixedUpdate()
     {
-        //if (isActive && movementCoroutine == null && activeTask == null)
         if (GameManager.gameMan.isGameplayActive && movementCoroutine == null && activeTask == null)
             ProgressRoutine();
 
@@ -44,13 +36,12 @@ public class AI : Character
     {
         AIRoutine.WayPoint nextWaypoint = routine.GetNextWaypoint();
         SetTask(nextWaypoint.triggerable);
-        //the line bellow will throw errors if both triggerable and rawPosition are not set. Leaving it as it is for now untill I implement a better system to manage routines.
+        //the line bellow will throw errors if both triggerable and rawPosition are not set. Leaving it as it is for now until I implement a better system to manage routines.
         PlanAndExecuteMovement(nextWaypoint.triggerable == null? nextWaypoint.rawPosition.position : nextWaypoint.triggerable.transform.position); 
     }
 
     protected override bool ProcessTrigger()
     {
-        //queuedTask.TriggerAI();
         activeTask = queuedTask;
         queuedTask = null;
         activeTask.TriggerAI();
@@ -88,7 +79,7 @@ public class AI : Character
     IEnumerator AIAction()
     {
         float taskTime = routine.GetCurrentWaypointActionDuration();
-        //yield return new WaitForSeconds(routine.GetCurrentWaypointActionDuration());
+
         while (timer < taskTime)
         {
             yield return new WaitForEndOfFrame();
@@ -122,6 +113,7 @@ public class AI : Character
             }
         }
     }
+    
     void OnGUI()
     {
         //test
@@ -149,6 +141,7 @@ public class AI : Character
             GUI.Label(rect, line);
         }
     }
+
 }
 
 [System.Serializable]

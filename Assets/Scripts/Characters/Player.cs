@@ -5,28 +5,20 @@ using UnityEngine;
 public class Player : Character
 {
     static public Player player;
-    static public TaskProgressBarController progressBar; //TODO consider moving to Character.cs
-    GameObject avatarModel; //TODO consider moving to Character.cs
-    public bool isHiding {get; private set;}
+
+    public bool isHiding;   //because the declaration above can't be exposed in editor, and I use this to be able to move player around even in rooms with enemy without
+                            //triggering player catching and stage end. 
 
     public override void Awake()
     {
         if (player == null)
-        {
             player = this;
-            progressBar = this.transform.Find("TaskProgressBar").gameObject.GetComponent<TaskProgressBarController>();
-        }
         else
             Destroy(this.gameObject);
 
         base.Awake();
     }
-    public override void CustomStart()
-    {
-        avatarModel = this.transform.Find("Model").gameObject;
-        base.CustomStart();
-    }
-
+    
     public void SetHidingStatus(bool newState)
     {
         isHiding = newState;

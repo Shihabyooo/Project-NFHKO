@@ -30,17 +30,16 @@ public class TriggerableContainer : Triggerable
             yield return new WaitForEndOfFrame();
             timeSinceStart += Time.deltaTime;
             
-            Player.progressBar.SetProgress(timeSinceStart/triggerTime);
+            Player.player.progressBar.SetProgress(timeSinceStart/triggerTime);
         }
 
-        Player.progressBar.SetBarVisibility(false);
+        Player.player.progressBar.SetBarVisibility(false);
         Player.player.ClearActiveTask();
 
         if (GameManager.inventory.AddItem(containedItem)) //AddItem() returns true if we succeeded in adding the item.
-            {
-                //print ("SUCCEEDED IN ADDING ITEM");
-                yield return isTriggered = true;
-            }
+        {
+            yield return isTriggered = true;
+        }
         else //if adding the item failed (no inventory space remaining), we simply return without setting isTriggered, giving player possibility of attempting to retry triggering this.
             yield return null;
     }

@@ -16,24 +16,24 @@ public class Character : MonoBehaviour
     protected Triggerable queuedTask = null;
     protected Triggerable activeTask = null;
     protected Triggerable viewTask = null;
-    //public bool isActive = false; //for pausing action for character (i.e. at menus, game pause, when game has ended, etc)
+    protected GameObject avatarModel;
+    public TaskProgressBarController progressBar {get; private set;}
 
     public virtual void Awake()
     {
-        //isActive = false;
     }
 
     public virtual void CustomStart()
     {
-        //print ("CustomStart called for " + this.gameObject.name);
         currentNode = GameManager.pathFinder.FindNodeFromPosition(this.transform.position);
-        //isActive = true;
+        avatarModel = this.transform.Find("Model").gameObject;
+        progressBar = this.transform.Find("TaskProgressBar").gameObject.GetComponent<TaskProgressBarController>();
+        progressBar.SetBarVisibility(false);
     }
 
     public virtual void FixedUpdate()
     {
         //Two things to note: A: This is expensive. B: The null test is to avoid having time periods where currentNode == null (since some regions, e.g. transitions between rooms, aren't counted by FindNodeFormPosition method)
-        //if (isActive)
         if (GameManager.gameMan.isGameplayActive)
             currentNode = GameManager.pathFinder.FindNodeFromPosition(this.transform.position) == null? currentNode : GameManager.pathFinder.FindNodeFromPosition(this.transform.position); 
         
@@ -41,10 +41,8 @@ public class Character : MonoBehaviour
     
     public bool PlanAndExecuteMovement(Vector3 target)
     {
-        if (isOnStairs || !GameManager.gameMan.isGameplayActive)// || !isActive) //don't want to interrupt stairs climbing/descending
+        if (isOnStairs || !GameManager.gameMan.isGameplayActive)
             return false;
-
-       //print ("Moving");
 
         Path path = GameManager.pathFinder.CalculatePath(currentNode, target);
         
@@ -74,10 +72,7 @@ public class Character : MonoBehaviour
 
         pathPoints = path.nodesChain;
         ultimateMovementTarget = path.exactPos;
-        //need to figure a away to queue actions at the end of movement as well.
-        //a bool (actionQueuedAfterMovement?) coupled with a reference to specialized "Interactable" class which we call the "Trigger" method of if actionQueuedAfterMovement == true, perhaps?
 
-        //print ("Starting movement coroutine");
         movementCoroutine = StartCoroutine(Movement());
         return true;
     }
@@ -98,8 +93,7 @@ public class Character : MonoBehaviour
 
         while (!hasArrived)
         {
-            //while (!isActive) //should stall the movement loop when pausing.
-            while (!GameManager.gameMan.isGameplayActive)
+            while (!GameManager.gameMan.isGameplayActive)  //should stall the movement loop when pausing.
                 yield return new WaitForEndOfFrame();
 
             Vector3 pos = this.transform.position;
@@ -180,7 +174,6 @@ public class Character : MonoBehaviour
         Vector3 teleportPos =  new Vector3(
             pathPoints[pathPoints.Count - 2].transform.position.x, 
             this.transform.position.y - yDelta,
-            //0.0f
             this.transform.position.z //in case the action plane (where characters move) isn't set to world zero.
          );
 
@@ -215,7 +208,6 @@ public class Character : MonoBehaviour
 
     void CancelTasks()
     {
-        //print ("Called CancelTask()");
         if (activeTask != null)
             activeTask.Cancel();        
 
@@ -253,4 +245,5 @@ public class Character : MonoBehaviour
             Gizmos.DrawSphere(ultimateMovementTarget, 0.5f);
         }
     }
+
 }

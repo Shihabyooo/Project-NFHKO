@@ -86,7 +86,7 @@ public class Triggerable : MonoBehaviour
         //print ("Called Cancel()");
         StopAllCoroutines();
         pTriggerProcessCoroutine = null;
-        Player.progressBar.SetBarVisibility(false);
+        Player.player.progressBar.SetBarVisibility(false);
     }
 
     protected virtual void StartPlayerTrigger()
@@ -120,15 +120,17 @@ public class Triggerable : MonoBehaviour
             yield return new WaitForEndOfFrame();
             timeSinceStart += Time.deltaTime;
             
-            Player.progressBar.SetProgress(timeSinceStart/triggerTime);
+            Player.player.progressBar.SetProgress(timeSinceStart/triggerTime);
         }
 
-        Player.progressBar.SetBarVisibility(false);
+        Player.player.progressBar.SetBarVisibility(false);
         Player.player.ClearActiveTask();
         
         //print ("Finished PlayerTriggerProcess");
         SwitchState(TriggerableState.playerTriggered);
-        yield return isTriggered = true;
+        isTriggered = true;
+        RemoveRquiredItems();
+        yield return null;
     }
 
     public virtual void SwitchState(TriggerableState newstate)
@@ -136,6 +138,16 @@ public class Triggerable : MonoBehaviour
         state = newstate;
     }
 
+    protected virtual void RemoveRquiredItems()
+    {
+        if (requiredItems.Length < 1)
+            return;
+
+        foreach(ItemSlot item in requiredItems)
+        {
+            GameManager.inventory.RemoveItem(item);
+        }
+    }
 }
 
 [System.Serializable]
