@@ -17,7 +17,8 @@ public class MouseInput : MonoBehaviour
     
     void Update()
     {
-        ProcessInput();
+        if (GameManager.stateMan.gameState == GameStateManager.State.gamePlay)
+            ProcessInput();
     }
 
     void ProcessInput()

@@ -11,7 +11,7 @@ public class CameraControl : MonoBehaviour
     public float zoomSpeed = 65.0f; 
     public float cameraSpeed = 5.0f;
 
-    void Start()
+    void Awake()
     {
         if (mainCam == null)
             mainCam = this;

@@ -11,6 +11,7 @@ public class GameManager : MonoBehaviour
     static public NarrativeManager narrativeMan;
     static public UIManager uiMan;
     static public SceneManagementHandler sceneMan;
+    static public GameStateManager stateMan;
     public bool isGameplayActive {get; private set;}
 
     void Awake()
@@ -18,11 +19,20 @@ public class GameManager : MonoBehaviour
         if (gameMan ==  null)
         {
             gameMan = this;
+            
             pathFinder = this.gameObject.GetComponent<PathFinder>();
             inventory = this.gameObject.GetComponent<InventorySystem>();
-            narrativeMan = this.gameObject.GetComponent<NarrativeManager>();
+            narrativeMan = this.gameObject.GetComponent<NarrativeManager>();            
             uiMan = this.gameObject.GetComponent<UIManager>();
             sceneMan = this.gameObject.GetComponent<SceneManagementHandler>();
+            stateMan = this.gameObject.GetComponent<GameStateManager>();
+
+            pathFinder.enabled = false;
+            inventory.enabled = false;
+            uiMan.enabled = false;
+            
+            sceneMan.InitializeSceneManagementHandler(); //because sceneMan's roles are required early at the begining of the game.
+
             DontDestroyOnLoad(this.gameObject);
         }
         else
@@ -33,13 +43,22 @@ public class GameManager : MonoBehaviour
 
     void Start()
     {
+        //StartCoroutine(StageBeginInit());
+        //The coroutine above will now only be started upon switching to a new stage (and currenGameState is set to GameState.gamePlayer)
+    }
+
+    public void StartNewStage()
+    {
         StartCoroutine(StageBeginInit());
     }
 
     IEnumerator StageBeginInit()
     {
+        inventory.enabled = true;
         inventory.InitializeInventory();
+        uiMan.enabled = true;
         uiMan.InitializeUIManager();
+        pathFinder.enabled = true;
         pathFinder.InitializePathFinder();
 
         while (!pathFinder.isInitialized) //Why? Shouldn't a simple call to PathFinder.InitializePathFinder stall the rest of the calling method untill init finishes?
@@ -84,5 +103,5 @@ public class GameManager : MonoBehaviour
     {
         pathFinder.ResetPathFinder();
     }
-    
+
 }

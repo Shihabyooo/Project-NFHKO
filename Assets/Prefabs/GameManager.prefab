@@ -15,6 +15,8 @@ GameObject:
   - component: {fileID: 7031774898671539246}
   - component: {fileID: 7031774898671539245}
   - component: {fileID: 7031774898671539244}
+  - component: {fileID: 3786418670336435483}
+  - component: {fileID: 2402488061143010427}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -106,7 +108,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 20edba0171c5bc841bfe50119438f33f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  worldUI: {fileID: 0}
   playerMessageHeight: 0.5
   textFadeInSpeed: 2
   textFadeOutSpeed: 0.5
@@ -123,3 +124,27 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerMessageDuration: 5
+--- !u!114 &3786418670336435483
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7031774898671539243}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d36e15453b0c74e4180bfd1f4c6c63a1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &2402488061143010427
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7031774898671539243}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a298fc56c44d9274188dc63039585c8c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

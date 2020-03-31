@@ -10,23 +10,32 @@ public class SceneManagementHandler : MonoBehaviour
     public bool isLoading {get; private set;} = false;
     bool isInLoadingScreen = false;
     AsyncOperation bgLevelLoader;
-
+    GameStateManager.State stateOnLoad = GameStateManager.State.mainMenu;
 
     void Awake()
+    {
+        
+    }
+
+    public void InitializeSceneManagementHandler()
     {
         SceneManager.sceneLoaded += OnSceneLoaded;
     }
 
-    public void LoadScene(string sceneName)
+    public void LoadScene(string sceneName, GameStateManager.State newStateOnLoad)
     {
         //TODO update current stage value here (once it's implemented)
+        //print ("in LoadScene(), recieved newStateOnLoad to: " + newStateOnLoad); //test
         targetSceneName = sceneName;
+        stateOnLoad = newStateOnLoad;
+        //print ("in LoadScene(), set stateOnLoad to: " + stateOnLoad); //test
         SwitchToLoadingScreen();
     }
 
     void SwitchToLoadingScreen()
     {
         isInLoadingScreen = true;
+        GameManager.stateMan.SwitchGameState(GameStateManager.State.loadingScreen);
         SceneManager.LoadScene("LoadingScreen");
     }
 
@@ -45,7 +54,9 @@ public class SceneManagementHandler : MonoBehaviour
         while (!bgLevelLoader.isDone)
         {
             //Remember that AsyncOperation.progress goes from 0.0f to 0.9f, not a perfect 1.0f.
-            //TODO update loading progress bar here
+
+            TestLoadingScreenHandler.loadingScreen.SetProgress(bgLevelLoader.progress / 0.9f); //TODO remove this and switch to final loading screen implementation
+
             if (bgLevelLoader.progress >= 0.891f) //0.891 is 99% if 0.9.
             {
                 yield return new WaitForSeconds(endDelay); //mostly for development phases, to avoid having the loading screen flash instantaniously.
@@ -68,10 +79,11 @@ public class SceneManagementHandler : MonoBehaviour
         }
         //else this means we've finished loading our targetScene (since isInLoadScreen is set to false in the coroutine and before allowing Unity to switch to target scene)
         
-        print ("Scene '" + scene.name + "' was loaded successfully.");
+        //print ("Scene '" + scene.name + "' was loaded successfully.");
 
         //TODO have GameManager do its stage start initializations here
 
         isLoading = false;
+        GameManager.stateMan.SwitchGameState(stateOnLoad);
     }
 }
