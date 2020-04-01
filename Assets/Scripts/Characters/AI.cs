@@ -93,6 +93,7 @@ public class AI : Character
         yield return activeTask = null;
     }
 
+#if UNITY_EDITOR
     public override void OnDrawGizmos()
     {
         base.OnDrawGizmos(); //draw nav path from Character.cs.
@@ -113,7 +114,9 @@ public class AI : Character
             }
         }
     }
-    
+#endif
+
+#if UNITY_EDITOR
     void OnGUI()
     {
         //test
@@ -141,6 +144,7 @@ public class AI : Character
             GUI.Label(rect, line);
         }
     }
+#endif
 
 }
 

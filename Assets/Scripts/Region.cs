@@ -20,7 +20,7 @@ public class Region : MonoBehaviour
         UpdateCorners();
     }
 
-    //void OnDrawGizmosSelected()
+#if UNITY_EDITOR
     void OnDrawGizmos()
     {
         UpdateCorners(); //this is expensive, but otherwise Unity won't update corners in editors unless exposed values are modified.
@@ -30,7 +30,7 @@ public class Region : MonoBehaviour
         Gizmos.DrawLine(cornerNE, cornerSE);
         Gizmos.DrawLine(cornerSE, cornerSW);
     }
-
+#endif
     public void UpdateCorners()
     {
         globalCentre = this.transform.position + localCentre;

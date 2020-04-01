@@ -223,6 +223,7 @@ public class Character : MonoBehaviour
         return activeTask.Trigger();
     }
 
+#if UNITY_EDITOR
     public virtual void OnDrawGizmos()
     {
         if (movementCoroutine != null)
@@ -245,5 +246,5 @@ public class Character : MonoBehaviour
             Gizmos.DrawSphere(ultimateMovementTarget, 0.5f);
         }
     }
-
+#endif
 }

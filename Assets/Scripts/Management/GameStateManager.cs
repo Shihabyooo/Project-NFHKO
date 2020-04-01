@@ -64,7 +64,7 @@ public class GameStateManager : MonoBehaviour
         }
     }
 
-
+#if UNITY_EDITOR
     void OnGUI()
     {
         string message = "Current GameState: " + gameState.ToString();
@@ -76,4 +76,6 @@ public class GameStateManager : MonoBehaviour
         GUI.Label(new Rect(30.0f, Screen.height - 70.0f, 200.0f, 30.0f), "Time elapsed: " + timeElapsedSinceStageStart);
 
     }
+#endif
+
 }

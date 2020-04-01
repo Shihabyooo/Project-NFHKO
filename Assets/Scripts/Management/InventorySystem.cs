@@ -107,6 +107,7 @@ public class InventorySystem : MonoBehaviour
         return -1;
     }
 
+#if UNITY_EDITOR
     void OnGUI() //test
     {
         Rect rect = new Rect(20, 10, 400, 30);
@@ -125,6 +126,7 @@ public class InventorySystem : MonoBehaviour
         }
 
     }
+#endif
 
 }
 

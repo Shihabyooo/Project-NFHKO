@@ -41,6 +41,7 @@ public class NavigationNode : MonoBehaviour
         }
     }
 
+#if UNITY_EDITOR
      void OnDrawGizmos()
     {
 
@@ -53,5 +54,6 @@ public class NavigationNode : MonoBehaviour
                 Gizmos.DrawLine(this.transform.position, node.transform.position);
         }
     }
+#endif
 
 }

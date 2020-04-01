@@ -10,7 +10,7 @@ public class Room : Region
     public uint roomID; 
     Color gizmoColor = new Color(0.0f,1.0f,1.0f,1.0f);
 
-    void Start()
+    void Awake()
     {
         roomCollider = this.gameObject.GetComponent<BoxCollider>();
         roomCollider.center = localCentre;
