@@ -8,6 +8,16 @@ public class GameStateManager : MonoBehaviour
     public State gameState {get; private set;}
     public float timeElapsedSinceStageStart {get; private set;} = 0.0f;
 
+    public int currentStageID = -1; //TODO make this private when testing is done.
+    public Stage currentStageParameters = null; //TODO make this private when testing is done.
+
+    public void UpdateStageParameters(int stageID)
+    {
+        currentStageID = stageID;
+        
+        if (stageID >= 0) //I'm having an assumption here that, sometimes in the future, I'm going to send negative numbers as stageIDs for non playable levels (e.g. menus. loading, etc)
+            currentStageParameters = StagesData.GetStageParameters((uint)currentStageID);
+    }
 
     public void SwitchGameState(State newState)
     {

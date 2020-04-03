@@ -22,6 +22,21 @@ public class SceneManagementHandler : MonoBehaviour
         SceneManager.sceneLoaded += OnSceneLoaded;
     }
 
+    public void LoadScene(uint stageID, GameStateManager.State newStateOnLoad) //this, coupled with the requiremnt that positive stageIDs should only be used for playable stages,
+    {                                                                          //should mean that this version of LoadScene will be used only for playable stages.
+        Stage targetStage = StagesData.GetStageParameters(stageID);
+
+        if (targetStage == null)
+        {
+            print ("ERROR! Attempting to load a stage with an ID not existant in the database. ID: " + stageID);
+            return;
+        }
+
+        print ("Switching to scene: " + targetStage.name);
+        GameManager.stateMan.UpdateStageParameters((int)stageID);
+        LoadScene(targetStage.name, newStateOnLoad);
+    }
+
     public void LoadScene(string sceneName, GameStateManager.State newStateOnLoad)
     {
         //TODO update current stage value here (once it's implemented)
