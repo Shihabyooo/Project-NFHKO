@@ -8,7 +8,6 @@ public class NarrativeManager : MonoBehaviour
 
     public void ProcessTriggerView(Triggerable triggerable)
     {
-        StopAllCoroutines();
 
         string message = "";
 
@@ -28,6 +27,13 @@ public class NarrativeManager : MonoBehaviour
         if (message == "" )
             message = "[Empty Message]"; //test
 
+        ShowMessage(message);
+    }
+
+    public void ShowMessage(string message)
+    {
+        StopAllCoroutines();
+
         GameManager.uiMan.SetPlayerMessage(message, true);
         StartCoroutine(MessageWait(playerMessageDuration, true));
     }
@@ -43,6 +49,5 @@ public class NarrativeManager : MonoBehaviour
 
         yield return null;
     }
-
 
 }

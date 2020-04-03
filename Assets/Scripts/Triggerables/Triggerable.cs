@@ -148,6 +148,7 @@ public class Triggerable : MonoBehaviour
             GameManager.inventory.RemoveItem(item);
         }
     }
+
 }
 
 [System.Serializable]
