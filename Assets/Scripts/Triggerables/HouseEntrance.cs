@@ -12,38 +12,38 @@ public class HouseEntrance : Triggerable
     {
         if (!CheckPreRequisites())
         {
-            //print ("Hasn't reached minimum required pranks yet");
             GameManager.narrativeMan.ShowMessage("I can't go home just yet.");
             return false;
         }
 
+        print ("Ending Stage");
         StartPlayerTrigger();
         return true;
     }
 
     public override void TriggerAI() //AI shouldn't ever trigger this.
     {
-        //StartAITrigger();
     }
 
     protected override bool CheckPreRequisites() 
     {
         //TODO After implementing a stage requirement handler (one that contains, for eg. the minimum tricks need to be triggered before stage can be ended), do the checking here.
         //Consider having this check be done in GameStateManager.
-        print ("Checking prerequisites for level end");
-        return false;
-        
+
+        if (GameManager.stateMan.successfulPranks >= GameManager.stateMan.currentStageParameters.minTrapsTriggeredToClear)
+            return true;        
+        else
+            return false;
     }
 
     protected override void StartPlayerTrigger() //Here we call a pop up menu (and, in case the player hasn't set all traps, a reminder of such) asking whether the player wants to
     {                                            //end the stage and progress to the next one. If not, simply close the popup. If yes, end stage.
-        //print ("Inside StartPlayerTrigger()");
-        //pTriggerProcessCoroutine = StartCoroutine(PlayerTriggerProcess());
+        print ("starting end stage animation");
+        GameManager.gameMan.EndStage();
     } 
 
     public override void SwitchState(TriggerableState newstate) //state of this project should never change.
     {
-        //state = newstate;
     }
 
 }

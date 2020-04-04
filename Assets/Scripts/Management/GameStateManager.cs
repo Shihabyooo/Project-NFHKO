@@ -7,17 +7,9 @@ public class GameStateManager : MonoBehaviour
     public enum State {mainMenu, pauseMenu, gamePlay, loadingScreen};
     public State gameState {get; private set;}
     public float timeElapsedSinceStageStart {get; private set;} = 0.0f;
-
     public int currentStageID = -1; //TODO make this private when testing is done.
     public Stage currentStageParameters = null; //TODO make this private when testing is done.
-
-    public void UpdateStageParameters(int stageID)
-    {
-        currentStageID = stageID;
-        
-        if (stageID >= 0) //I'm having an assumption here that, sometimes in the future, I'm going to send negative numbers as stageIDs for non playable levels (e.g. menus. loading, etc)
-            currentStageParameters = StagesData.GetStageParameters((uint)currentStageID);
-    }
+    public int successfulPranks = 0; //TODO make this private when testing is done.
 
     public void SwitchGameState(State newState)
     {
@@ -50,28 +42,53 @@ public class GameStateManager : MonoBehaviour
         //print ("New gameState: " + gameState);
     }
 
-    public void RestartStageTimer()
+    public void InitializeNewStageState()
+    {
+        successfulPranks = 0;
+        RestartStageTimer();
+    }
+
+    void RestartStageTimer()
     {
         StopStageTimer();
+        timeElapsedSinceStageStart = 0.0f;
         stageTimeKeeper = StartCoroutine(TimeKeeper());
     }
     
-    public void StopStageTimer()
+    public void StopStageTimer() //also functions as Pause, since the time at calling is stored, can be resumed by ResumeStageTimer() and won't be reset unless RestartStageTimer()
     {
         if (stageTimeKeeper != null)
             StopCoroutine(stageTimeKeeper);
+    }
+
+    public void ResumeStageTimer()
+    {
+        StopStageTimer(); //in case I was stupid enough to call this method while a TimeKeeper is already running.
+        stageTimeKeeper = StartCoroutine(TimeKeeper());
     }
 
     Coroutine stageTimeKeeper = null;
 
     IEnumerator TimeKeeper()
     {
-        timeElapsedSinceStageStart = 0.0f;
         while(true)
         {
             yield return new WaitForFixedUpdate();
             timeElapsedSinceStageStart += Time.fixedDeltaTime;
         }
+    }
+
+    public void UpdateStageParameters(int stageID)
+    {
+        currentStageID = stageID;
+        
+        if (stageID >= 0) //I'm having an assumption here that, sometimes in the future, I'm going to send negative numbers as stageIDs for non playable levels (e.g. menus. loading, etc)
+            currentStageParameters = StagesData.GetStageParameters((uint)currentStageID);
+    }
+
+    public void BumpSuccessfulPranksCount(uint increment = 1)
+    {
+        successfulPranks += (int)increment;
     }
 
 #if UNITY_EDITOR

@@ -85,7 +85,7 @@ public class PathFinder : MonoBehaviour
         if (currentNode.nodeID != targetNode.nodeID)
         {    
             List<NavigationNode> nodeChain = FindPath(currentNode, targetNode);
-
+            
             nodeChain.RemoveAt(nodeChain.Count - 1); //last element is the node we are currently at, no need to keep it.
             
             //we fillout our path object.

@@ -15,5 +15,4 @@ public class HidingSpot : Triggerable
         Player.player.ClearActiveTask();
     }
 
-
 }

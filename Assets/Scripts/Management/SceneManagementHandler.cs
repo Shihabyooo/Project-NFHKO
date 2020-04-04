@@ -39,11 +39,8 @@ public class SceneManagementHandler : MonoBehaviour
 
     public void LoadScene(string sceneName, GameStateManager.State newStateOnLoad)
     {
-        //TODO update current stage value here (once it's implemented)
-        //print ("in LoadScene(), recieved newStateOnLoad to: " + newStateOnLoad); //test
         targetSceneName = sceneName;
         stateOnLoad = newStateOnLoad;
-        //print ("in LoadScene(), set stateOnLoad to: " + stateOnLoad); //test
         SwitchToLoadingScreen();
     }
 
@@ -94,10 +91,6 @@ public class SceneManagementHandler : MonoBehaviour
         }
         //else this means we've finished loading our targetScene (since isInLoadScreen is set to false in the coroutine and before allowing Unity to switch to target scene)
         
-        //print ("Scene '" + scene.name + "' was loaded successfully.");
-
-        //TODO have GameManager do its stage start initializations here
-
         isLoading = false;
         GameManager.stateMan.SwitchGameState(stateOnLoad);
     }

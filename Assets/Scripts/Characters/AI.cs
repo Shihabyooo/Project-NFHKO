@@ -56,15 +56,10 @@ public class AI : Character
     
     public void ActivatePrankResponse()
     {
-        print("Activating prank response"); //test
-        //TODO remember to:
-            //make accommodation for animation triggers (future)
-            //check whether there are any triggerables remaining in routine (use routine.noOfTriggerableWaypoints);
-            //clear active tasks, so the routine can progress.
-
-            routine.RemoveWayPointFromRoutine(routine.currentWaypoint);
-            CheckRemainingRoutineTasks();
-            ClearActiveTask();
+        routine.RemoveWayPointFromRoutine(routine.currentWaypoint);
+        CheckRemainingRoutineTasks();
+        ClearActiveTask();
+        GameManager.stateMan.BumpSuccessfulPranksCount();
     }
 
     void CheckRemainingRoutineTasks()

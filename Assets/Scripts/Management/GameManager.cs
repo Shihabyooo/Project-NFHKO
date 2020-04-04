@@ -62,12 +62,13 @@ public class GameManager : MonoBehaviour
         pathFinder.enabled = true;
         pathFinder.InitializePathFinder();
 
-        while (!pathFinder.isInitialized) //Why? Shouldn't a simple call to PathFinder.InitializePathFinder stall the rest of the calling method untill init finishes?
+        while (!pathFinder.isInitialized) //Why? Shouldn't a simple call to PathFinder.InitializePathFinder stall the rest of the calling method until init finishes?
             yield return new WaitForSeconds(0.5f);
         
         StartPlayerAndAI();
-        isGameplayActive = true; //TODO remember to remove this when implementing a proper game start
-        stateMan.RestartStageTimer();
+
+        stateMan.InitializeNewStageState();        
+        isGameplayActive = true; //TODO remember to remove this when implementing a proper game start (i.e. intro animation)
         yield return null;
     }
 
@@ -105,7 +106,10 @@ public class GameManager : MonoBehaviour
 
     public void EndStage()
     {
-        pathFinder.ResetPathFinder();
+        print ("Ending stage at GameManager");
+        pathFinder.ResetPathFinder(); //useless?
+        stateMan.StopStageTimer();
+        isGameplayActive = false;
     }
 
 }
