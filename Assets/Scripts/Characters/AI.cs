@@ -54,11 +54,16 @@ public class AI : Character
         StartCoroutine(AIAction()); //TODO modify this line after implementing StartAITrigger() in Triggerable. 
     }
     
-    public void ActivatePrankResponse()
+    public void ActivatePrankResponse() //TODO this function should begin by playing the angry reaction animation of the AI, then update the routine.
     {
         routine.RemoveWayPointFromRoutine(routine.currentWaypoint);
         CheckRemainingRoutineTasks();
         ClearActiveTask();
+        GameManager.stateMan.BumpSuccessfulPranksCount();
+    }
+
+    public void ActivateNonRoutinePrankResponse() //TODO similarily to ActivatePrankResponse()
+    {        
         GameManager.stateMan.BumpSuccessfulPranksCount();
     }
 

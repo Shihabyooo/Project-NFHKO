@@ -7,6 +7,7 @@ using UnityEngine;
 //      1- pre-requirements, which could be other triggerables (with states saved in a global parameter), or items used (drag and drop? select then select?) or nothing.
 //      2- triggering time, which can take near instantaniously (item pickup), or take moderate or long time (to add difficulty, must time with enemy routine).
 
+
 public class Triggerable : MonoBehaviour
 {
     public enum TriggerableState {untriggered, playerTriggered, aiTriggered};
@@ -100,7 +101,7 @@ public class Triggerable : MonoBehaviour
         //check if triggered by player
         if (isTriggered)
         {
-            AI.mainAI.ActivatePrankResponse();
+            AI.mainAI.ActivatePrankResponse(); //TODO when implementing prank animation, which should be controlled by a coroutine, move this call to the end of coroutine.
             SwitchState(TriggerableState.aiTriggered);
         }
         else
